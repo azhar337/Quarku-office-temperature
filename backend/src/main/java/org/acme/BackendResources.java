@@ -1,11 +1,7 @@
 package org.acme;
 
-
-import org.acme.database.temperature.TemperatureRepository;
-import org.acme.database.temperature.TemperatureResources;
-import org.acme.database.user.UserRepository;
-import org.acme.database.user.UserResources;
-import org.acme.token.TokenCreate;
+import org.acme.database.DataRepository;
+import org.acme.database.DataResources;
 import org.acme.token.TokenResources;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
@@ -19,7 +15,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -30,11 +25,11 @@ import java.util.Objects;
 )
 @Path("/auth")
 @ApplicationScoped
-public class CredentialResources {
+public class BackendResources {
 
 
     @Inject
-    UserResources UserDb;
+    DataResources UserDb;
 
     @Inject
     TokenResources token;
@@ -47,7 +42,7 @@ public class CredentialResources {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createNew(UserRepository userData){
+    public Response createNew(DataRepository userData){
         if(!UserDb.checkUser(userData.email)){
             return Response.ok("Already registered").build();
         }
@@ -76,7 +71,7 @@ public class CredentialResources {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response login(UserRepository _details){
+    public Response login(DataRepository _details){
         if(UserDb.checkUser(_details.email)) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

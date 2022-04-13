@@ -1,4 +1,4 @@
-package org.acme.database.user;
+package org.acme.database;
 
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -11,7 +11,7 @@ import javax.persistence.Entity;
  * */
 
 @Entity
-public class UserRepository extends PanacheEntity {
+public class DataRepository extends PanacheEntity {
 
     @Column(unique = true)
     public String email;
