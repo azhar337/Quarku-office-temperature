@@ -37,8 +37,6 @@ public class ApiRepository {
     TokenMailer tokenMailer;
 
 
-
-
     //to store new registered user and send token verification
     @POST
     @Path("/register")
@@ -48,7 +46,8 @@ public class ApiRepository {
     public Response createNew(DataRepository userData){
         if(!dataResource.checkUser(userData.email)){
             String newToken = token.verificationToken(dataResource.getId(userData.email));
-            return  dataResource.checkStatus(dataResource.getId(userData.email))?Response.ok("Already registered").build()
+            return  dataResource.checkStatus(dataResource.getId(userData.email))?
+                    Response.ok("Already registered").build()
                     :Response.ok(tokenMailer.mailToken(userData.email, newToken)).build();
         }
         if(dataResource.newUser(userData)){
@@ -88,7 +87,8 @@ public class ApiRepository {
 
         if (Objects.equals(dataResource.getPassword(id), details.password)){
             String sessionToken = token.sessionToken(id);
-            return Response.status(Response.Status.CREATED).header("session_token",sessionToken).build(); //TODO: session token here
+            return Response.status(Response.Status.CREATED)
+                    .header("session_token",sessionToken).build(); //TODO: session token here
         }
 
         return Response.status(Response.Status.UNAUTHORIZED).build();
