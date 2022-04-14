@@ -2,6 +2,7 @@ package org.azhar;
 
 import org.azhar.dbmanager.DataRepository;
 import org.azhar.dbmanager.DataResource;
+import org.azhar.mail.TokenMailer;
 import org.azhar.token.TokenResource;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
@@ -32,6 +33,10 @@ public class ApiRepository {
     @Inject
     TokenResource token;
 
+    @Inject
+    TokenMailer tokenMailer;
+
+
 
 
     //to store new registered user and send token verification
@@ -42,11 +47,13 @@ public class ApiRepository {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createNew(DataRepository userData){
         if(!dataResource.checkUser(userData.email)){
-            return Response.ok("Already registered").build();
+            String newToken = token.verificationToken(dataResource.getId(userData.email));
+            return  dataResource.checkStatus(dataResource.getId(userData.email))?Response.ok("Already registered").build()
+                    :Response.ok(tokenMailer.mailToken(userData.email, newToken)).build();
         }
         if(dataResource.newUser(userData)){
             String _token = token.verificationToken(userData.id);
-            return Response.ok(_token).build(); //TODO: create verification token and send email
+            return Response.ok(tokenMailer.mailToken(userData.email, _token)).build(); //TODO: create verification token and send email
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
