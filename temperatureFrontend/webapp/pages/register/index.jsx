@@ -28,7 +28,7 @@ export default function Register() {
                 status:false,
                 password: hashPassword,
             }
-           await axios.post('auth/reg', data)
+           await axios.post('api/register', data)
                 .then(request => createStatus(request.data))
                 .catch(err => console.log(err));
             

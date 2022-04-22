@@ -10,7 +10,7 @@ export default function Activate() {
     const activate = async (event) => {
         event.preventDefault();
         let token = event.target.token.value
-        await axios.post('auth/act/',{},
+        await axios.post('api/activate/',{},
         {headers: {Authorization: `Bearer ${token}`}})
                 .then(req => createStatus(req.data))
                 .catch(err => createStatus(err.response.statusText));

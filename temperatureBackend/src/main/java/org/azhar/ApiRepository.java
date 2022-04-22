@@ -1,11 +1,13 @@
 package org.azhar;
 
+import org.apache.commons.io.IOUtils;
 import org.azhar.dbmanager.DataRepository;
 import org.azhar.dbmanager.DataResource;
 import org.azhar.mail.TokenMailer;
 import org.azhar.token.TokenResource;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
+import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -16,6 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import java.io.*;
 import java.util.Objects;
 
 @SecurityScheme(
@@ -52,7 +55,7 @@ public class ApiRepository {
         }
         if(dataResource.newUser(userData)){
             String _token = token.verificationToken(userData.id);
-            return Response.ok(tokenMailer.mailToken(userData.email, _token)).build(); //TODO: create verification token and send email
+            return Response.ok(tokenMailer.mailToken(userData.email, _token)).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
@@ -64,9 +67,10 @@ public class ApiRepository {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response activateAccount(@Context SecurityContext id){   // TODO: take token of activation here and verify its id and email
+    public Response activateAccount(@Context SecurityContext id){
         Long _id = Long.parseLong(id.getUserPrincipal().getName());
-        return Response.ok(dataResource.activateStatus(_id,true)).build();
+        dataResource.activateStatus(_id,true);
+        return Response.ok(dataResource.checkStatus(_id)).build();
     }
 
     //user login verification and send session token
@@ -87,19 +91,31 @@ public class ApiRepository {
 
         if (Objects.equals(dataResource.getPassword(id), details.password)){
             String sessionToken = token.sessionToken(id);
-            return Response.status(Response.Status.CREATED)
-                    .header("session_token",sessionToken).build(); //TODO: session token here
+            return Response.ok(sessionToken).build(); //TODO: session token here
         }
 
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
-
+    //user upload csv file
     @POST
     @RolesAllowed("user")
-    @Path("/directory")
+    @Path("/upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response userDir(@Context SecurityContext securityId){
+    public Response userDir(@Context SecurityContext securityId, @MultipartForm MultipartBody data) throws IOException {
+
+        byte[] bytes = IOUtils.toByteArray(data.file);
+
+        String path = "src/main/resources/temperature/"+ data.fileName +".csv";
+
+        File targetFile = new File("src/main/resources/temperature/"+ data.fileName +".csv");
+        OutputStream outStream = new FileOutputStream(targetFile);
+        outStream.write(bytes);
+        IOUtils.closeQuietly(outStream);
+
+        dataResource.uploadDir(token.extractId(securityId), path);
+
         return Response.ok(dataResource.getDir(token.extractId(securityId))).build();
     }
 
@@ -121,4 +137,5 @@ public class ApiRepository {
     public Response testFunction(@Context SecurityContext securityContext) {
         return Response.ok(token.extractId(securityContext)).build();
     }
+
 }

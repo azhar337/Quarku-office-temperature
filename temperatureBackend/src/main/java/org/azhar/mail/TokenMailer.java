@@ -19,8 +19,8 @@ public class TokenMailer {
     public String mailToken(String toMail, String token) {
 
         String header = "Your email verification";
-        String body = "<strong>Click <a href='"+ urlAddress +"?ver="+ token +"'>here to verify</a></strong>"; //TODO: Make the frontend get the token in this url then put it as header and send to backend
-        Mail sendToken = Mail.withHtml(toMail, header, body);
+//        String body = "<strong>Click <a href='"+ urlAddress +"?ver="+ token +"'>here to verify</a></strong>"; //TODO: Make the frontend get the token in this url then put it as header and send to backend
+        Mail sendToken = Mail.withHtml(toMail, header, token);
 
         mailer.send(sendToken);
 

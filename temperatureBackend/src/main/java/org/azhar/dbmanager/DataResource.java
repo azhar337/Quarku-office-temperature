@@ -7,7 +7,7 @@ import java.util.List;
 public class DataResource {
 
     public  boolean newUser(DataRepository user){
-        if (!user.status && user.email != null && user.password != null && user.dataDir != null ){
+        if (!user.status && user.email != null && user.password != null ){
             DataRepository.persist(user);
             return user.isPersistent();
         }
@@ -52,4 +52,13 @@ public class DataResource {
         DataRepository entity = DataRepository.findById(id);
         return  entity.status;
     }
+
+    public String uploadDir(Long id, String dir){
+        DataRepository entity = DataRepository.findById(id);
+
+
+        return dir;
+    }
+
+
 }

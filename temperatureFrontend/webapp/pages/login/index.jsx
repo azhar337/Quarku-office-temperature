@@ -10,19 +10,19 @@ export default function Login() {
     const jwtKey = process.env.NEXT_PUBLIC_JWTPub; 
     const privKey = process.env.NEXT_PUBLIC_COOKIESPRIV;
 
-    if(checkCookies('ssToken', 123)){
-        const cookie = getCookies('ssToken',123);
-        try{
-         const tokenCookie = jwt.verify(cookie.ssToken , privKey)
-            if(tokenCookie){
-                if(jwt.verify(tokenCookie.token, jwtKey)){
-                Router.push("/dashboard/")   
-                }
-            }
-        }catch{
-            removeCookies("ssToken", 123);
-        }
-    }
+    // if(checkCookies('ssToken', 123)){
+    //     const cookie = getCookies('ssToken',123);
+    //     try{
+    //      const tokenCookie = jwt.verify(cookie.ssToken , privKey)
+    //         if(tokenCookie){
+    //             if(jwt.verify(tokenCookie.token, jwtKey)){
+    //             Router.push("/dashboard/")   
+    //             }
+    //         }
+    //     }catch{
+    //         removeCookies("ssToken", 123);
+    //     }
+    // }
 
     const [status, createStatus] = useState();
     
@@ -33,10 +33,10 @@ export default function Login() {
 
         const data = {
             email:_email,
-            password: event.target.password.value, //TODO : remove this
+            password: hashPassword, //TODO : remove this
         }
 
-        await axios.post('auth/log', data)
+        await axios.post('api/login', data)
                 .then(req => createStatus(req.data))
                 .catch(err => createStatus(err.response.statusText));
     }
@@ -51,9 +51,11 @@ export default function Login() {
                 case "Not Found":
                     alert("Email does not exist");
                     Router.push("/register/")
+                    break;
                 case "Bad Request":
                     alert("Account not activated");
                     Router.push("/register/")
+                    break;
                 
                 default:
                     if (jwt.verify(status, jwtKey)){
@@ -88,3 +90,6 @@ export default function Login() {
     </div>
     )
 }
+
+
+///TODO check the cookies and authenticate
