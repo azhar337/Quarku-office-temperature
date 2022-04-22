@@ -1,10 +1,10 @@
 package org.azhar;
 
-import org.apache.commons.io.IOUtils;
 import org.azhar.dbmanager.DataRepository;
 import org.azhar.dbmanager.DataResource;
-import org.azhar.mail.TokenMailer;
+import org.azhar.utils.TokenMailer;
 import org.azhar.token.TokenResource;
+import org.azhar.utils.FileManager;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
@@ -38,6 +38,9 @@ public class ApiRepository {
 
     @Inject
     TokenMailer tokenMailer;
+
+    @Inject
+    FileManager fileManager;
 
 
     //to store new registered user and send token verification
@@ -103,20 +106,10 @@ public class ApiRepository {
     @Path("/upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
     public Response userDir(@Context SecurityContext securityId, @MultipartForm MultipartBody data) throws IOException {
-
-        byte[] bytes = IOUtils.toByteArray(data.file);
-
-        String path = "src/main/resources/temperature/"+ data.fileName +".csv";
-
-        File targetFile = new File("src/main/resources/temperature/"+ data.fileName +".csv");
-        OutputStream outStream = new FileOutputStream(targetFile);
-        outStream.write(bytes);
-        IOUtils.closeQuietly(outStream);
-
-        dataResource.uploadDir(token.extractId(securityId), path);
-
-        return Response.ok(dataResource.getDir(token.extractId(securityId))).build();
+        fileManager.storeFile(token.extractId(securityId), data);
+        return Response.ok().build();
     }
 
 

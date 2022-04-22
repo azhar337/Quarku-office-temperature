@@ -9,7 +9,6 @@ export function Upload({token}) {
     const [file, setFile] = useState();
     const [createObjectURL, setCreateObjectURL] = useState();
     
-
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
           const i = event.target.files[0];
@@ -22,7 +21,6 @@ export function Upload({token}) {
 
         const data = new FormData();
         const fileName = uuidv4();
-        // console.log(fileName)
         data.append("file", file);
         data.append("fileName", fileName );
 
@@ -36,7 +34,7 @@ export function Upload({token}) {
         .catch(err => alert("Upload fail"));
       };
 
-    
+      
     
     return ( 
         
@@ -51,6 +49,6 @@ export function Upload({token}) {
         <button type="submit" onClick={uploadToServer}>Upload</button>
            
         </div>
-
     )
 }
+

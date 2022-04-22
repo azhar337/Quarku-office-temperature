@@ -53,11 +53,12 @@ public class DataResource {
         return  entity.status;
     }
 
-    public String uploadDir(Long id, String dir){
+    public String uploadDir(Long id, String newDir){
         DataRepository entity = DataRepository.findById(id);
-
-
-        return dir;
+        String oldDir = entity.dataDir;
+        String updatedDir = oldDir +","+newDir;
+        DataRepository.update("dataDir = ?1 where id= ?2", updatedDir, id);
+        return entity.dataDir;
     }
 
 

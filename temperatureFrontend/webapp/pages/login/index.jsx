@@ -5,24 +5,9 @@ import { useState, useEffect } from "react"
 import Router from 'next/router'
 import jwt from 'jsonwebtoken'; 
 import { setCookies, checkCookies, getCookies, removeCookies } from 'cookies-next';
+import {auth} from '../../utils/cookies'
 
 export default function Login() {
-    const jwtKey = process.env.NEXT_PUBLIC_JWTPub; 
-    const privKey = process.env.NEXT_PUBLIC_COOKIESPRIV;
-
-    // if(checkCookies('ssToken', 123)){
-    //     const cookie = getCookies('ssToken',123);
-    //     try{
-    //      const tokenCookie = jwt.verify(cookie.ssToken , privKey)
-    //         if(tokenCookie){
-    //             if(jwt.verify(tokenCookie.token, jwtKey)){
-    //             Router.push("/dashboard/")   
-    //             }
-    //         }
-    //     }catch{
-    //         removeCookies("ssToken", 123);
-    //     }
-    // }
 
     const [status, createStatus] = useState();
     
@@ -42,6 +27,8 @@ export default function Login() {
     }
 
     useEffect ( () =>{
+        const jwtKey = process.env.NEXT_PUBLIC_JWTPub; 
+        const privKey = process.env.NEXT_PUBLIC_COOKIESPRIV;
 
         if(status){
             switch(status) {

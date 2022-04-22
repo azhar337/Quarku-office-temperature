@@ -1,4 +1,4 @@
-package org.azhar.mail;
+package org.azhar.utils;
 
 import io.quarkus.mailer.Mail;
 import io.quarkus.mailer.Mailer;
