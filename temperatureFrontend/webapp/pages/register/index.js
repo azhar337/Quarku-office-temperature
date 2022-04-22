@@ -6,7 +6,7 @@ import Router from 'next/router'
 
 
 
-export default function Home() {
+export default function Register() {
 
     const [status, createStatus] = useState();
 

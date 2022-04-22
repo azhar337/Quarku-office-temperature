@@ -3,7 +3,7 @@ import axios from '../../base-axios'
 import { useState, useEffect } from "react"
 import Router from 'next/router'
 
-export default function Home() {
+export default function Activate() {
     const [status, createStatus] = useState();
 
 
