@@ -17,14 +17,16 @@ export const auth = () => {
 
                  return tokenCookie.token   
               }else{
+                // console.log("3")
                  return false
              }
         
          }catch{
+            // console.log("2")
              removeCookies("ssToken", 123);
          }
         }else{
-
+            // console.log("1")
             return false
          }
 }

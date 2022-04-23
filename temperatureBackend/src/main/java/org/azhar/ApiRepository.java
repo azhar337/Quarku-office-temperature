@@ -108,11 +108,40 @@ public class ApiRepository {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public Response userDir(@Context SecurityContext securityId, @MultipartForm MultipartBody data) throws IOException {
-        fileManager.storeFile(token.extractId(securityId), data);
+        String path = fileManager.storeFile(data);
+        dataResource.uploadDir(token.extractId(securityId), path);
         return Response.ok().build();
     }
 
+    @POST
+    @RolesAllowed("user")
+    @Path("/files")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getFiles(@Context SecurityContext securityId){
+        return Response.ok(dataResource.getDir(token.extractId(securityId))).build();
+    }
 
+    @POST
+    @RolesAllowed("user")
+    @Path("/data/{id}")
+    @Produces(MediaType.MULTIPART_FORM_DATA)
+    @Transactional
+    public File getData(@Context SecurityContext securityId,@PathParam("id") Long dataId){
+        System.out.println("here");
+       String dir = dataResource.getDir(token.extractId(securityId));
+        return fileManager.grabFile(dir,dataId);
+    }
+//    @POST
+//    @RolesAllowed("user")
+//    @Path("/data")
+//    @Consumes(MediaType.TEXT_PLAIN)
+//    @Produces(MediaType.MULTIPART_FORM_DATA)
+//    @Transactional
+//    public File getData(@Context SecurityContext securityId, Long dataId){
+//        System.out.println("here");
+//        String dir = dataResource.getDir(token.extractId(securityId));
+//        return fileManager.grabFile(dir,dataId);
+//    }
 
     //to get all user data
     //TODO: remove this when done

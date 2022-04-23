@@ -8,6 +8,8 @@ import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @Singleton
 public class FileManager {
@@ -15,7 +17,7 @@ public class FileManager {
     @Inject
     DataResource dataResource;
 
-    public String storeFile(Long id, @MultipartForm MultipartBody data) throws IOException {
+    public String storeFile(@MultipartForm MultipartBody data) throws IOException {
 
         byte[] bytes = IOUtils.toByteArray(data.file);
 
@@ -26,11 +28,14 @@ public class FileManager {
         outStream.write(bytes);
         IOUtils.closeQuietly(outStream);
 
-        return dataResource.uploadDir(id, path);
+        return  path;
 
     }
 
-//    public String grabFile(){
-//
-//    }
+    public File grabFile(String dir, Long dataId){
+        int id = Math.toIntExact(dataId);
+        ArrayList<String> targetDir = new ArrayList<>(Arrays.asList(dir.split(",")));
+        File file= new File(String.valueOf(targetDir.get(id)));
+        return file;
+    }
 }
