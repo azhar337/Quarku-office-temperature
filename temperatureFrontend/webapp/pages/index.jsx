@@ -2,6 +2,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import { ColorModeScript } from '@chakra-ui/react'
+import theme from '../styles/theme'
 
 export default function Home() {
   return (
@@ -11,7 +13,7 @@ export default function Home() {
         <meta name="description" content="Its fun and game until you forget your sweater and get fever" />
         <link rel="icon" href="/fav.PNG" />
       </Head>
-
+      <ColorModeScript />
       <main className={styles.main}>
         <h1 className={styles.title}>
           What my office <b>temperature?</b>
@@ -36,7 +38,7 @@ export default function Home() {
           </Link>
         </div>
       </main>
-
+     
       <footer className={styles.footer}>
         <a
           href="https://www.google.com/search?q=air+conditioner&rlz=1C1CHBF_enMY996MY996&oq=Aircondi&aqs=chrome.1.69i57j0i10i512l5j0i10i457i512j0i402j0i10i512l2.9213j0j7&sourceid=chrome&ie=UTF-8"
