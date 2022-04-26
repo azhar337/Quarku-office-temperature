@@ -15,15 +15,23 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.ViewIterator;
 import org.nd4j.linalg.factory.Nd4j;
 
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 
-
-public class MainPrediction extends Thread {
+public class MainPrediction implements Runnable {
 
     private static final int nEpochs = 1;
+    private static String filePath;
+    private static int batchSize;
 
-    public static RecordReader getData (String filePath) throws IOException, InterruptedException {
+
+    public MainPrediction(String filePath, int _batchSize) {
+        MainPrediction.filePath = filePath;
+        MainPrediction.batchSize = _batchSize;
+    }
+
+    private static RecordReader getData () throws IOException, InterruptedException {
 
         File file = new File(filePath);
         RecordReader rr = new CSVRecordReader(0);
@@ -33,24 +41,10 @@ public class MainPrediction extends Thread {
     }
 
 
-//    public static void main(String[] args) throws IOException, InterruptedException {
-//
-//        MainPrediction thread = new MainPrediction();
-//        thread.start();
-//
-//        File modelSave =  new File("src/main/resources/test");
-//        MultiLayerNetwork model1 = ModelSerializer.restoreMultiLayerNetwork(modelSave);
-//
-//        double[][] matrixDouble = new double[][]{
-//                {1635728264}};
-//        INDArray rowVector = Nd4j.create(matrixDouble);
-//        System.out.println(model1.output(rowVector));
-//
-//    }
-
     public void run() {
+
         try {
-            DataProcessing.setData(getData("src/main/resources/temperature.csv"),100);
+            DataProcessing.setData(getData(),batchSize);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -70,12 +64,13 @@ public class MainPrediction extends Thread {
         RegressionEvaluation regEval= model.evaluateRegression(testIter);
         System.out.println(regEval.stats());
 
+        String[] fileName = filePath.split("/");
+        String[] cleanName = fileName[3].split("\\.");
 
-        File locationToSave = new File("src/main/resources/test");
+        File locationToSave = new File("src/main/resources/model/"+cleanName[0]);
         System.out.println(locationToSave.toString());
         boolean saveUpdater = false;
 
-        // ModelSerializer needs modelname, saveUpdater, Location
         try {
             ModelSerializer.writeModel(model,locationToSave,saveUpdater);
         } catch (IOException e) {

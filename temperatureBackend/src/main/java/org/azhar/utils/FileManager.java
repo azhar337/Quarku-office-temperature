@@ -3,6 +3,7 @@ package org.azhar.utils;
 import org.apache.commons.io.IOUtils;
 import org.azhar.MultipartBody;
 import org.azhar.dbmanager.DataResource;
+import org.azhar.prediction.PredictionResources;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import javax.inject.Inject;
@@ -27,6 +28,9 @@ public class FileManager {
         OutputStream outStream = new FileOutputStream(targetFile);
         outStream.write(bytes);
         IOUtils.closeQuietly(outStream);
+
+        //train model for each file
+        PredictionResources.training(path);
 
         return  path;
 

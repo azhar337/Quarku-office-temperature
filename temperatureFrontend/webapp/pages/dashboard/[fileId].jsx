@@ -26,7 +26,7 @@ import {
     Tooltip,
     Legend
   );
-  import {Bar, Line, Scatter, Bubble} from "react-chartjs-2";
+  import {Line} from "react-chartjs-2";
 
 
 export default function FileId(){
@@ -300,7 +300,7 @@ export default function FileId(){
 
         <div>
               <Logout />
-              <Prediction />
+              <Prediction token={token} id={router.query.fileId} />
             {Visual}
             <button type="submit" onClick={getData}>Get Data</button>
 
