@@ -1,0 +1,4 @@
+temperatureBackend/src/main/resources/auth/jwt
+temperatureBackend/src/main/resources/auth/**
+temperatureBackend/src/main/resources/temperature/**
+temperatureBackend/src/main/resources/application.properties

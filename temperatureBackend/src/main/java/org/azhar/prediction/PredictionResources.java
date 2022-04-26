@@ -17,21 +17,21 @@ public class PredictionResources {
         String[] idArr = arr[3].split("\\.");
 
         File modelSave =  new File("src/main/resources/model"+idArr[0]+".zip");
-
-        if(modelSave.exists() == false)
-        {
-            System.out.println("Model not exist. Abort");
-            return "false";
-        }
-        File modelSave1 =  new File("src/main/resources/test.zip");
-        MultiLayerNetwork model1 = ModelSerializer.restoreMultiLayerNetwork(modelSave);
-
-        double[][] matrixDouble = new double[][]{
-                {Double.parseDouble(date)}};
-        INDArray rowVector = Nd4j.create(matrixDouble);
-        System.out.println(model1.output(rowVector));
-
-        return idArr[0];
+//
+//        if(modelSave.exists() == false)
+//        {
+//            System.out.println("Model not exist. Abort");
+//            return "false";
+//        }
+//        File modelSave1 =  new File("src/main/resources/test.zip");
+//        MultiLayerNetwork model1 = ModelSerializer.restoreMultiLayerNetwork(modelSave);
+//
+//        double[][] matrixDouble = new double[][]{
+//                {Double.parseDouble(date)}};
+//        INDArray rowVector = Nd4j.create(matrixDouble);
+//        System.out.println(model1.output(rowVector));
+//
+        return null;
     }
 
     private static Boolean training(String file){
