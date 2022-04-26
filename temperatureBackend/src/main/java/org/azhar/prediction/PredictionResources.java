@@ -16,13 +16,13 @@ public class PredictionResources {
         String[] arr = file.split("/");
         String[] idArr = arr[3].split("\\.");
 
-        File modelSave =  new File("src/main/resources/model"+idArr[0]+".zip");
-//
-//        if(modelSave.exists() == false)
-//        {
-//            System.out.println("Model not exist. Abort");
-//            return "false";
-//        }
+        File modelSave =  new File("src/main/resources/model/"+idArr[0]+".zip");
+
+        if(!modelSave.exists())
+        {
+            System.out.println("Model not exist. Abort");
+            return "false";
+        }
 //        File modelSave1 =  new File("src/main/resources/test.zip");
 //        MultiLayerNetwork model1 = ModelSerializer.restoreMultiLayerNetwork(modelSave);
 //
@@ -31,7 +31,7 @@ public class PredictionResources {
 //        INDArray rowVector = Nd4j.create(matrixDouble);
 //        System.out.println(model1.output(rowVector));
 //
-        return null;
+        return idArr[0];
     }
 
     private static Boolean training(String file){
