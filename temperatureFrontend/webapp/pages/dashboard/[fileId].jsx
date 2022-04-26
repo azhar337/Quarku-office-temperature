@@ -54,12 +54,15 @@ export default function FileId(){
 
 
     let token;
-    if (auth()){
-             token = auth()
+
+
+        if (auth()){
+             token = auth();
           
          }else{
-            // Router.push('/')
+             //router.push('/');
          }
+
          
     const getData = async (event) => {
       
