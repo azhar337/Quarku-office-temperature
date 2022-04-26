@@ -13,7 +13,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/azhar337/office-temperature">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.PNG" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">My Office Temperature</h3>
