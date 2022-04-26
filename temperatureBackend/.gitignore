@@ -39,10 +39,9 @@ nb-configuration.xml
 .env
 README.md
 
-!src/main/resources/auth/jwt
-!src/main/resources/auth/**
-!src/main/resources/temperature/**
-!src/main/resources/application.properties
+
 !/src/main/resources/application.properties
-!/src/main/resources/auth/jwt
-!/src/main/resources/auth/
+!/src/main/resources/model/*
+!/src/main/resources/temperature/*
+
+!/src/main/resources/auth/*

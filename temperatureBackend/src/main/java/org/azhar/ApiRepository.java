@@ -146,29 +146,4 @@ public class ApiRepository {
         return Response.ok(prediction).build();
     }
 
-
-
-
-    //to get all user data
-    //TODO: remove this when done
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response dumpAll() {
-        return Response.ok(dataResource.getUsers()).build();
-    }
-
-    //test function
-    //TODO: remove this when done
-    @GET
-    @Path("/test/{id}/{date}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response testFunction(@Context SecurityContext securityId, @PathParam("id") Long dataId,@PathParam("date") String date) throws IOException {
-
-        String dummy = "src/main/resources/temperature/0006ec21-0e35-4fee-9411-54555f5f4239.csv"; //TODO: clear
-
-        //String dir = dataResource.getDir(token.extractId(securityId));
-        String prediction = PredictionResources.makePrediction(dummy,date);
-        return Response.ok(prediction).build();
-    }
-
 }
