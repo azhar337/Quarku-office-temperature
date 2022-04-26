@@ -30,7 +30,7 @@ export function Upload({token}) {
            ContentType: 'multipart/form-data',
            Authorization: `Bearer ${token}`
         },})
-        .then(res => alert("Succesfully uploaded"))
+        .then(res => location.reload())
         .catch(err => alert("Upload fail"));
       };
 
