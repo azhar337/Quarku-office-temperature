@@ -42,3 +42,4 @@ README.md
 src/main/resources/auth/jwt
 src/main/resources/auth/jwt.pub
 src/main/resources/temperature/*
+src/main/resources/application.properties

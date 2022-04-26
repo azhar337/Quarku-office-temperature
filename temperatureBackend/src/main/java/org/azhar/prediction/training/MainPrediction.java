@@ -33,20 +33,20 @@ public class MainPrediction extends Thread {
     }
 
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-
-        MainPrediction thread = new MainPrediction();
-        thread.start();
-
-        File modelSave =  new File("src/main/resources/test");
-        MultiLayerNetwork model1 = ModelSerializer.restoreMultiLayerNetwork(modelSave);
-
-        double[][] matrixDouble = new double[][]{
-                {1635728264}};
-        INDArray rowVector = Nd4j.create(matrixDouble);
-        System.out.println(model1.output(rowVector));
-
-    }
+//    public static void main(String[] args) throws IOException, InterruptedException {
+//
+//        MainPrediction thread = new MainPrediction();
+//        thread.start();
+//
+//        File modelSave =  new File("src/main/resources/test");
+//        MultiLayerNetwork model1 = ModelSerializer.restoreMultiLayerNetwork(modelSave);
+//
+//        double[][] matrixDouble = new double[][]{
+//                {1635728264}};
+//        INDArray rowVector = Nd4j.create(matrixDouble);
+//        System.out.println(model1.output(rowVector));
+//
+//    }
 
     public void run() {
         try {
