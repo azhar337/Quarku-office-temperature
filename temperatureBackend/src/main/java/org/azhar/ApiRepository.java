@@ -2,6 +2,7 @@ package org.azhar;
 
 import org.azhar.dbmanager.DataRepository;
 import org.azhar.dbmanager.DataResource;
+import org.azhar.prediction.PredictionResources;
 import org.azhar.utils.TokenMailer;
 import org.azhar.token.TokenResource;
 import org.azhar.utils.FileManager;
@@ -127,21 +128,11 @@ public class ApiRepository {
     @Produces(MediaType.MULTIPART_FORM_DATA)
     @Transactional
     public File getData(@Context SecurityContext securityId,@PathParam("id") Long dataId){
-        System.out.println("here");
+
        String dir = dataResource.getDir(token.extractId(securityId));
         return fileManager.grabFile(dir,dataId);
     }
-//    @POST
-//    @RolesAllowed("user")
-//    @Path("/data")
-//    @Consumes(MediaType.TEXT_PLAIN)
-//    @Produces(MediaType.MULTIPART_FORM_DATA)
-//    @Transactional
-//    public File getData(@Context SecurityContext securityId, Long dataId){
-//        System.out.println("here");
-//        String dir = dataResource.getDir(token.extractId(securityId));
-//        return fileManager.grabFile(dir,dataId);
-//    }
+
 
     //to get all user data
     //TODO: remove this when done
@@ -156,8 +147,9 @@ public class ApiRepository {
     @GET
     @Path("/test")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response testFunction(@Context SecurityContext securityContext) {
-        return Response.ok(token.extractId(securityContext)).build();
+    public Response testFunction(@Context SecurityContext securityContext) throws IOException {
+        String test = PredictionResources.makePrediction("src/main/resources/test.csv","12");
+        return Response.ok(test).build();
     }
 
 }
