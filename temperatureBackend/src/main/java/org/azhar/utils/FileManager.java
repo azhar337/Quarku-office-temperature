@@ -36,10 +36,8 @@ public class FileManager {
 
     }
 
-    public File grabFile(String dir, Long dataId){
-        int id = Math.toIntExact(dataId);
-        ArrayList<String> targetDir = new ArrayList<>(Arrays.asList(dir.split(",")));
-        File file= new File(String.valueOf(targetDir.get(id)));
+    public File grabFile(String dir){
+        File file= new File(dir);
         return file;
     }
 }

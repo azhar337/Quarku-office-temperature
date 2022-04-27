@@ -1,5 +1,6 @@
 package org.azhar.prediction.training;
 
+import org.azhar.prediction.PredictionResources;
 import org.datavec.api.records.reader.RecordReader;
 import org.datavec.api.records.reader.impl.csv.CSVRecordReader;
 import org.datavec.api.split.FileSplit;
@@ -14,6 +15,8 @@ import org.nd4j.evaluation.regression.RegressionEvaluation;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.ViewIterator;
 import org.nd4j.linalg.factory.Nd4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.io.File;
@@ -24,6 +27,8 @@ public class MainPrediction implements Runnable {
     private static final int nEpochs = 1;
     private static String filePath;
     private static int batchSize;
+    private static final Logger log = LoggerFactory.getLogger(PredictionResources.class);
+    private static final Logger trainingLog = LoggerFactory.getLogger(MainPrediction.class);
 
 
     public MainPrediction(String filePath, int _batchSize) {
@@ -62,13 +67,12 @@ public class MainPrediction implements Runnable {
         model.fit(trainIter,nEpochs);
 
         RegressionEvaluation regEval= model.evaluateRegression(testIter);
-        System.out.println(regEval.stats());
+        trainingLog.info(regEval.stats());
 
         String[] fileName = filePath.split("/");
         String[] cleanName = fileName[3].split("\\.");
 
         File locationToSave = new File("src/main/resources/model/"+cleanName[0]);
-        System.out.println(locationToSave.toString());
         boolean saveUpdater = false;
 
         try {
@@ -77,6 +81,6 @@ public class MainPrediction implements Runnable {
             e.printStackTrace();
         }
 
-        System.out.println("saved");
+        log.info(cleanName[0]+"saved");
     }
 }

@@ -1,6 +1,8 @@
 package org.azhar.dbmanager;
 
 import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Singleton
@@ -59,6 +61,12 @@ public class DataResource {
         String updatedDir = oldDir +","+newDir;
         DataRepository.update("dataDir = ?1 where id= ?2", updatedDir, id);
         return entity.dataDir;
+    }
+
+    public String getSpecificDir (String dir, Long dataId){
+        int id = Math.toIntExact(dataId);
+        ArrayList<String> targetDir = new ArrayList<>(Arrays.asList(dir.split(",")));
+        return String.valueOf(targetDir.get(id));
     }
 
 

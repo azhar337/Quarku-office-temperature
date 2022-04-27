@@ -1,5 +1,6 @@
 package org.azhar.prediction.training;
 
+import org.azhar.prediction.PredictionResources;
 import org.datavec.api.records.reader.RecordReader;
 import org.datavec.api.records.reader.impl.collection.CollectionRecordReader;
 import org.datavec.api.transform.TransformProcess;
@@ -13,6 +14,8 @@ import org.nd4j.linalg.dataset.DataSet;
 import org.nd4j.linalg.dataset.SplitTestAndTrain;
 import org.nd4j.linalg.dataset.ViewIterator;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ public class DataProcessing {
 
     public static ViewIterator trainIter;
     public static ViewIterator testIter;
+    private static Logger log = LoggerFactory.getLogger(PredictionResources.class);
 
     public static void setData(RecordReader rr, int batchSize){
 

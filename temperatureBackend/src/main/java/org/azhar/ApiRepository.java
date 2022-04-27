@@ -20,6 +20,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 @SecurityScheme(
@@ -130,7 +132,8 @@ public class ApiRepository {
     public File getData(@Context SecurityContext securityId,@PathParam("id") Long dataId){
 
        String dir = dataResource.getDir(token.extractId(securityId));
-        return fileManager.grabFile(dir,dataId);
+       String specificDir = dataResource.getSpecificDir(dir, dataId);
+        return fileManager.grabFile(specificDir);
     }
 
     @POST
@@ -142,7 +145,8 @@ public class ApiRepository {
     ) throws IOException {
 
         String dir = dataResource.getDir(token.extractId(securityId));
-        String prediction = PredictionResources.makePrediction(dir,date);
+        String specificDir = dataResource.getSpecificDir(dir,dataId);
+        String prediction = PredictionResources.makePrediction(specificDir,date);
         return Response.ok(prediction).build();
     }
 
