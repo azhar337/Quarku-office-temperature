@@ -15,6 +15,7 @@ public class DataRepository extends PanacheEntity {
 
     public boolean status = false;
 
+    @Column(length = 2000000)
     public String dataDir;
 
 

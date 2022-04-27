@@ -97,7 +97,7 @@ public class ApiRepository {
 
         if (Objects.equals(dataResource.getPassword(id), details.password)){
             String sessionToken = token.sessionToken(id);
-            return Response.ok(sessionToken).build(); //TODO: session token here
+            return Response.ok(sessionToken).build();
         }
 
         return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -112,7 +112,10 @@ public class ApiRepository {
     @Transactional
     public Response userDir(@Context SecurityContext securityId, @MultipartForm MultipartBody data) throws IOException {
         String path = fileManager.storeFile(data);
-        dataResource.uploadDir(token.extractId(securityId), path);
+        String result = dataResource.uploadDir(token.extractId(securityId), path);
+        if (Objects.equals(result, "Over limit")){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         return Response.ok().build();
     }
 

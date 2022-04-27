@@ -1,6 +1,6 @@
 import { removeCookies } from 'cookies-next';
 import Router from 'next/router'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from '../base-axios'
 import { v4 as uuidv4 } from 'uuid';
 
@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 export function Upload({token}) { 
     const [file, setFile] = useState();
     const [createObjectURL, setCreateObjectURL] = useState();
+    const [status, setStatus] = useState();
     
     const uploadToClient = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -31,8 +32,23 @@ export function Upload({token}) {
            Authorization: `Bearer ${token}`
         },})
         .then(res => location.reload())
-        .catch(err => alert("Upload fail"));
+        .catch(err => setStatus(err.response.statusText));
       };
+
+      useEffect ( () =>{
+        if(status){
+          switch(status) {
+            case "Bad Request":
+                alert("Upload limit reached");
+                break;
+            default:
+              alert("Upload fail")
+              break;
+          }
+
+        }
+
+      },[status])
 
       
     

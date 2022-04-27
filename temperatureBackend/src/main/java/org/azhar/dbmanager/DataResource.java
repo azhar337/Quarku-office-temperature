@@ -59,8 +59,11 @@ public class DataResource {
         DataRepository entity = DataRepository.findById(id);
         String oldDir = entity.dataDir;
         String updatedDir = oldDir +","+newDir;
-        DataRepository.update("dataDir = ?1 where id= ?2", updatedDir, id);
-        return entity.dataDir;
+        if (updatedDir.length() <= 2000000) {
+            DataRepository.update("dataDir = ?1 where id= ?2", updatedDir, id);
+            return entity.dataDir;
+        }
+        return "Over limit";
     }
 
     public String getSpecificDir (String dir, Long dataId){

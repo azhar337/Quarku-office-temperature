@@ -48,6 +48,7 @@ public class MainPrediction implements Runnable {
 
     public void run() {
 
+
         try {
             DataProcessing.setData(getData(),batchSize);
         } catch (IOException | InterruptedException e) {
