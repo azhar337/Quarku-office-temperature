@@ -26,7 +26,7 @@ public class PredictionResources {
         System.out.println(modelSave);
         if(!modelSave.exists())
         {
-            return training(file);
+            return "Model does not exist, re Upload file";
         }
 
         MultiLayerNetwork model1 = ModelSerializer.restoreMultiLayerNetwork(modelSave);
